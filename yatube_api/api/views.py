@@ -2,7 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from .permissions import IsAuthorOrReadOnly
+from .permisions import IsAuthorOrReadOnly
 from .serializers import PostSerializer, GroupSerializer, CommentSerializer
 from posts.models import Post, Group, Comment
 from django.shortcuts import get_object_or_404
