@@ -1,6 +1,7 @@
 from rest_framework import permissions
 from posts.models import Post, Comment
 
+
 class IsAuthorOrReadOnly(permissions.BasePermission):
     """
     Разрешает изменение только автору объекта.
@@ -11,8 +12,6 @@ class IsAuthorOrReadOnly(permissions.BasePermission):
         # GET, HEAD, OPTIONS всегда разрешены
         if request.method in permissions.SAFE_METHODS:
             return True
-
-        
         if isinstance(obj, Post):
             return obj.author == request.user
         elif isinstance(obj, Comment):
