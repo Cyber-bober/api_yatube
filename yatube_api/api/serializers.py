@@ -2,23 +2,15 @@ from rest_framework import serializers
 from posts.models import Post, Group, Comment
 from django.contrib.auth import get_user_model
 
+
 User = get_user_model()
 
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'username')
-
-
-class GroupSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Group
-        fields = ('id', 'title', 'slug', 'description')
-
-
 class PostSerializer(serializers.ModelSerializer):
-    author = UserSerializer(read_only=True)
+    author = serializers.SlugRelatedField(
+        slug_field='username',
+        read_only=True
+    )
+    
     group = serializers.PrimaryKeyRelatedField(
         queryset=Group.objects.all(),
         required=False
@@ -31,9 +23,18 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    author = UserSerializer(read_only=True)
+    author = serializers.SlugRelatedField(
+        slug_field='username',
+        read_only=True
+    )
 
     class Meta:
         model = Comment
         fields = ('id', 'author', 'post', 'text', 'created')
         read_only_fields = ('author', 'created', 'post')
+
+
+class GroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Group
+        fields = ('id', 'title', 'slug', 'description')
