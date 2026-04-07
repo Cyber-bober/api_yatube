@@ -5,12 +5,13 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 class PostSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
         slug_field='username',
         read_only=True
     )
-    
+
     group = serializers.PrimaryKeyRelatedField(
         queryset=Group.objects.all(),
         required=False
